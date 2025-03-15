@@ -15,6 +15,7 @@ class ReadScopedLock{
 public:
     ReadScopedLock(T& mutex)
     :m_mutex(mutex){
+        //std::cout << "rdlock lock" << std::endl;
         m_mutex.rdLock();
         m_locked = true;
     }
@@ -23,6 +24,7 @@ public:
     {
         if(m_locked == true)
         {
+            //std::cout << "rdlock unlock" << std::endl;
             m_mutex.unlock();
             m_locked = false;
         }
@@ -40,6 +42,7 @@ public:
     {
         if(m_locked = true)
         {
+            //std::cout << "rdlock unlock" << std::endl;
             m_mutex.unlock();
             m_locked = false;
         }
@@ -54,6 +57,7 @@ class WriteScopedLock{
 public:
     WriteScopedLock(T& mutex)
     :m_mutex(mutex){
+        //std::cout << "wrlock lock" << std::endl;
         m_mutex.wrLock();
         m_locked = true;
     }
@@ -62,6 +66,7 @@ public:
     {
         if(m_locked == true)
         {
+            //std::cout << "wrlock unlock" << std::endl;
             m_mutex.unlock();
             m_locked = false;
         }
@@ -79,6 +84,7 @@ public:
     {
         if(m_locked = true)
         {
+            //std::cout << "wrlock unlock" << std::endl;
             m_mutex.unlock();
             m_locked = false;
         }
@@ -93,6 +99,7 @@ class ScopedLock{
 public:
     ScopedLock(T& mutex)
     :m_mutex(mutex){
+        //std::cout << "mulock lock" << std::endl;
         m_mutex.lock();
         m_locked = true;
     }
@@ -116,6 +123,7 @@ public:
     }
     void unlock()
     {
+        //std::cout << "mulock unlock" << std::endl;
         if(m_locked = true)
         {
             m_mutex.unlock();

@@ -44,6 +44,7 @@ void test_fiber()
     
 }
 
+myitem::Timer::ptr timer;
 
 int main()
 {
@@ -54,6 +55,15 @@ int main()
     myitem::IOManager::ptr IOManager_ptr = std::make_shared<myitem::IOManager>(2, true);
     IOManager_ptr->start();
 
+    // timer = IOManager_ptr->addTimer(500, [](){
+    //     std::cout << "timer 1 work by " << myitem::Thread::GetName() << std::endl;
+    //     static int i = 0;
+    //     ++i;
+    //     if(i == 5)
+    //     {
+    //         timer->reset(2000, true);
+    //     }
+    // }, true);
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     fcntl(sock, F_SETFL, O_NONBLOCK);
 
@@ -67,6 +77,7 @@ int main()
         std::cout << "sock write " << std::endl;
     });
     int rt = connect(sock, (const sockaddr *)&addr, sizeof(addr));
+
 
     IOManager_ptr->stop();
 

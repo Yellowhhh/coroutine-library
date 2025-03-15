@@ -173,10 +173,10 @@ namespace myitem{
         //设置当前运行的协程指针为协程调度指针
         SetThis(Scheduler::GetSchedulerFiber());
         swapcontext(&m_ctx, &(Scheduler::GetSchedulerFiber()->m_ctx));
-        if(temp_debug)
-        {
-            std::cout << "reach swapOut back" << std::endl;
-        }
+        // if(temp_debug)
+        // {
+        //     std::cout << "reach swapOut back" << std::endl;
+        // }
     }
 
     void Fiber::YieldToReady()

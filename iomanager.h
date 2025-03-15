@@ -4,10 +4,11 @@
 #include "scheduler.h"
 #include "fiber.h"
 #include "thread.h"
+#include "timer.h"
 
 
 namespace myitem{
-class IOManager : public Scheduler{
+class IOManager : public Scheduler, public TimerManager{
 public:
     typedef std::shared_ptr<IOManager> ptr;
     
@@ -28,6 +29,8 @@ public:
     void tickle() override;
     void idle() override;
     bool stopping() override;
+
+    void onTimerInsertedAtFront() override;
     
     void reserveFdContextVector(int nums);
 

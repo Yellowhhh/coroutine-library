@@ -302,26 +302,44 @@ void IOManager::idle()
     while(1)
     {
         //std::cout << "idle run in thread " << Thread::GetName() << std::endl;
-
+        uint64_t next_time = 0;
         if(stopping())
         {
-            std::cout << "idle stopping" << std::endl;
-            break;
+            
+            next_time = getNextTime();
+            if(next_time == ~0ull)
+            {
+                std::cout << "idle stopping" << std::endl;
+                break;
+            }
         }
-
         //std::cout << "idle test not stopping" << Thread::GetName() << std::endl;
  
         int rt = 0;
         while(1)
         {
-            static const uint32_t MAX_TIMEOUT = 500;
-            rt = epoll_wait(epfd, events.get(), MAX_EVENTS, MAX_TIMEOUT);
+            static const int MAX_TIMEOUT = 1000;
+            next_time = next_time > MAX_TIMEOUT ? MAX_TIMEOUT : next_time;
+            rt = epoll_wait(epfd, events.get(), MAX_EVENTS, (int)next_time);
             if(rt < 0 && rt == EINTR){
             }
             else{
                 break;
             }
         }
+
+        std::vector<std::function<void()>> cbs;
+        listExpiredCb(cbs);
+        if(!cbs.empty())
+        {
+            for(auto i : cbs)
+            {
+                add_task(std::make_shared<Fiber>([i](){i();}, 8192));
+            }
+        }
+        cbs.clear();
+
+
         for(int i = 0; i < rt; ++i)
         {
             //std::cout << "epoll return from " << Thread::GetName() << std::endl;
@@ -428,7 +446,11 @@ bool IOManager::stopping()
     return Scheduler::stopping() && m_pendingEventCount == 0;
 }
 
+void IOManager::onTimerInsertedAtFront()
+{
+    tickle();
 
+}
 
 
 
