@@ -1,0 +1,1 @@
+/usr/bin/c++   -rdynamic -O0 -ggdb -std=c++11 -Wall -Wno-deprecated -Werror -Wno-unused-function   CMakeFiles/hook_test.dir/test/hook_test.cc.o  -o bin/hook_test -Wl,-rpath,/home/nowcoder/my_item/lib lib/libmyitem.so -ldl -lpthread 

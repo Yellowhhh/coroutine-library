@@ -1,0 +1,5 @@
+/home/nowcoder/my_item/CMakeFiles/rebuild_cache.dir
+/home/nowcoder/my_item/CMakeFiles/edit_cache.dir
+/home/nowcoder/my_item/CMakeFiles/hook_test.dir
+/home/nowcoder/my_item/CMakeFiles/myitem.dir
+/home/nowcoder/my_item/CMakeFiles/mytest.dir
